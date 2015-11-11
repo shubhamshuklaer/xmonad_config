@@ -1,0 +1,4 @@
+gtk-theme-name = "Ambiance-Flat-Aqua"
+gtk-font-name = "Droid Sans 9"
+gtk-icon-theme-name = "Moka"
+gtk-application-prefer-dark-theme = "1"

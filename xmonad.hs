@@ -1,3 +1,4 @@
+-- Fix this : https://wiki.haskell.org/Xmonad/Frequently_asked_questions#XMonad_is_frozen.21
 import Graphics.X11.ExtraTypes.XF86
 import System.IO
 import XMonad
@@ -14,14 +15,36 @@ import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.Accordion
 import XMonad.Actions.FindEmptyWorkspace
+import XMonad.Actions.GridSelect
+import XMonad.Util.Scratchpad
+import XMonad.StackSet as W
+
+--http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Util-EZConfig.html
+--Note that, unlike in xmonad 0.4 and previous, you can't use
+--modMask to refer to the modMask you configured earlier. You must
+--specify mod1Mask (or whichever), or add your own myModMask =
+--mod1Mask line.
+my_mod_mask=mod4Mask
 
 myManageHook = composeAll [
     manageDocks
     , className =? "Gimp"      --> doFloat
     , className =? "Vncviewer" --> doFloat
+    , className =? "Yakuake" --> doFloat
     , isFullscreen --> doFullFloat
     , manageHook defaultConfig
-    ]
+    ] <+> manageScratchPad
+
+{- https://pbrisbin.com/posts/xmonad_scratchpad/ -}
+-- then define your scratchpad management separately:
+manageScratchPad :: ManageHook
+manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
+  where
+
+    h = 0.3     -- terminal height, 30%
+    w = 1       -- terminal width, 100%
+    t = 0.02       -- distance from top edge, 2% i.e just below xmobar
+    l = 1 - w   -- distance from left edge, 0%
 
 {- shubham x = getWorkspaceNames -}
 
@@ -43,25 +66,25 @@ main = do
                             {- , ppHidden = getWorkspaceNames -}
                             , ppTitle = xmobarColor "green" "" . shorten 50
                 }
-            , modMask = mod4Mask     -- Rebind Mod to the Windows key
+            , modMask = my_mod_mask     -- Rebind Mod to the Windows key
             , startupHook = setWMName "LG3D"
         }
         `additionalKeys`[
-            ((mod4Mask .|. shiftMask, xK_z), spawn "gnome-screensaver-command -l")
+            ((my_mod_mask .|. shiftMask, xK_z), spawn "gnome-screensaver-command -l")
             , ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s")
             , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -D pulse sset Master 5%+")
             , ((0, xF86XK_AudioLowerVolume), spawn "amixer -D pulse sset Master 5%-")
             , ((0, xF86XK_AudioMute), spawn "amixer -D pulse sset Master toggle")
-            , ((mod4Mask .|. shiftMask, xK_r), renameWorkspace defaultXPConfig)
+            , ((my_mod_mask .|. shiftMask, xK_r), renameWorkspace defaultXPConfig)
             , ((0, 0x1008ffa9), spawn "bash -c \"if [ $(synclient -l | grep TouchpadOff | awk '{print $3}') == 1 ];  then synclient touchpadoff=0; else synclient touchpadoff=1; fi\"")
-            , ((mod4Mask, xK_slash), spawn "bash -c \"xdg-open ~/xmonad_cheatsheet.jpg & exit\"")
-            , ((mod4Mask .|. shiftMask, xK_f), sendMessage (Toggle "Full"))
-            , ((mod4Mask,                xK_m    ), viewEmptyWorkspace) -- Go to an empty workspace
-            , ((mod4Mask .|. shiftMask,  xK_m    ), tagToEmptyWorkspace) --send current window to an empty workspace
+            , ((my_mod_mask, xK_slash), spawn "bash -c \"xdg-open ~/xmonad_cheatsheet.jpg & exit\"")
+            , ((my_mod_mask .|. shiftMask, xK_f), sendMessage (Toggle "Full"))
+            {- , ((my_mod_mask,                xK_m    ), viewEmptyWorkspace) -- Go to an empty workspace not much useful this key combo is used for focusing master window -}
+            , ((my_mod_mask .|. shiftMask,  xK_m    ), tagToEmptyWorkspace) --send current window to an empty workspace
+            , ((my_mod_mask, xK_g), goToSelected defaultGSConfig)
+            , ((0, xK_Print), spawn "scrot -q 1 $(xdg-user-dir PICTURES)/screenshots/%Y-%m-%d-%H:%M:%S.png")
+            , ((my_mod_mask, xK_Home), spawn "nautilus")
+            , ((my_mod_mask, xK_c), spawn "xclip -sel clip < ~/macros.cpp")
+            , ((my_mod_mask, xK_i), spawn "bash -i -c gproxy") -- alias works only in interactive shell
+            {- , ((my_mod_mask, xK_s), scratchpadSpawnActionTerminal "uxterm") -- gnome-terminal does not allow setting resource. -} --Not needed
         ]
-
-
-
-
-
-
