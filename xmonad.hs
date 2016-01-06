@@ -18,13 +18,15 @@ import XMonad.Actions.FindEmptyWorkspace
 import XMonad.Actions.GridSelect
 import XMonad.Util.Scratchpad
 import XMonad.StackSet as W
-
+import XMonad.Actions.CycleWS
 --http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Util-EZConfig.html
 --Note that, unlike in xmonad 0.4 and previous, you can't use
 --modMask to refer to the modMask you configured earlier. You must
 --specify mod1Mask (or whichever), or add your own myModMask =
 --mod1Mask line.
 my_mod_mask=mod4Mask
+altMask=mod1Mask
+my_terminal="gnome-terminal"
 
 myManageHook = composeAll [
     manageDocks
@@ -68,23 +70,34 @@ main = do
                 }
             , modMask = my_mod_mask     -- Rebind Mod to the Windows key
             , startupHook = setWMName "LG3D"
+            , terminal = my_terminal
         }
         `additionalKeys`[
-            ((my_mod_mask .|. shiftMask, xK_z), spawn "gnome-screensaver-command -l")
+            ((my_mod_mask .|. shiftMask, xK_z), spawn "dm-tool lock")
             , ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s")
             , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -D pulse sset Master 5%+")
             , ((0, xF86XK_AudioLowerVolume), spawn "amixer -D pulse sset Master 5%-")
             , ((0, xF86XK_AudioMute), spawn "amixer -D pulse sset Master toggle")
             , ((my_mod_mask .|. shiftMask, xK_r), renameWorkspace defaultXPConfig)
             , ((0, 0x1008ffa9), spawn "bash -c \"if [ $(synclient -l | grep TouchpadOff | awk '{print $3}') == 1 ];  then synclient touchpadoff=0; else synclient touchpadoff=1; fi\"")
-            , ((my_mod_mask, xK_slash), spawn "bash -c \"xdg-open ~/xmonad_cheatsheet.jpg & exit\"")
+            , ((my_mod_mask, xK_slash), spawn "bash -c \"xdg-open ~/xmonad_cheatsheet.png & exit\"")
+            , ((my_mod_mask, xK_b), spawn "bash -c \"xdg-open ~/Xmbindings.png & exit \"")
             , ((my_mod_mask .|. shiftMask, xK_f), sendMessage (Toggle "Full"))
             {- , ((my_mod_mask,                xK_m    ), viewEmptyWorkspace) -- Go to an empty workspace not much useful this key combo is used for focusing master window -}
             , ((my_mod_mask .|. shiftMask,  xK_m    ), tagToEmptyWorkspace) --send current window to an empty workspace
             , ((my_mod_mask, xK_g), goToSelected defaultGSConfig)
+            , ((my_mod_mask .|. shiftMask, xK_g), spawn "google-chrome-stable")
             , ((0, xK_Print), spawn "scrot -q 1 $(xdg-user-dir PICTURES)/screenshots/%Y-%m-%d-%H:%M:%S.png")
-            , ((my_mod_mask, xK_Home), spawn "nautilus")
+            , ((altMask, xK_Print), spawn "scrot -u -q 1 $(xdg-user-dir PICTURES)/screenshots/%Y-%m-%d-%H:%M:%S.png")
+            , ((shiftMask, xK_Print), spawn "bash -i -c \"scrot -s -q 1 $(xdg-user-dir PICTURES)/screenshots/%Y-%m-%d-%H:%M:%S.png\"") -- not working
+            , ((my_mod_mask .|. shiftMask, xK_h), spawn "nautilus")
             , ((my_mod_mask, xK_c), spawn "xclip -sel clip < ~/macros.cpp")
             , ((my_mod_mask, xK_i), spawn "bash -i -c gproxy") -- alias works only in interactive shell
             {- , ((my_mod_mask, xK_s), scratchpadSpawnActionTerminal "uxterm") -- gnome-terminal does not allow setting resource. -} --Not needed
+            , ((my_mod_mask, xK_p), spawn "dmenu-recent-aliases")
+            , ((my_mod_mask .|. shiftMask, xK_p), spawn "j4-dmenu-desktop")
+            , ((my_mod_mask, xK_d), spawn "ydb")
+            , ((my_mod_mask .|. shiftMask, xK_d), spawn "dmenu_extended_run")
+            , ((my_mod_mask, xK_o), spawn "bash -i -c \"hd_o\"") --open google_chrome with optirun
+            , ((my_mod_mask, xK_z), toggleWS)
         ]
