@@ -33,6 +33,7 @@ myManageHook = composeAll [
     , className =? "Gimp"      --> doFloat
     , className =? "Vncviewer" --> doFloat
     , className =? "Yakuake" --> doFloat
+    , className =? "Tilda" --> doFloat
     , isFullscreen --> doFullFloat
     , manageHook defaultConfig
     ] <+> manageScratchPad

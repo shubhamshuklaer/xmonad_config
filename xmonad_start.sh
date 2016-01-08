@@ -4,13 +4,14 @@ dropbox start &
 # nm-applet --sm-disable &
 # fluxgui &
 memory_low_notify.sh &
-yakuake &
+# yakuake &
+tilda &
 # https://github.com/davidbrewer/xmonad-ubuntu-conf
 # Run the gnome-keyring-daemon to avoid issues you otherwise may encounter
 # when using gnome applications which expect access to the keyring, such
 # as Empathy. This prevents prompts you may otherwise get for invalid
 # certificates and the like.
-gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh &
+# gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh &
 # for lockeing screen need to be run in order for light-locker-command -l to
 # work. dm-tool lock will call this first to lock and then switch to virtual
 # terminal 8 and display greeter
