@@ -82,7 +82,7 @@ main = do
             , ((my_mod_mask .|. shiftMask, xK_r), renameWorkspace defaultXPConfig)
             , ((0, 0x1008ffa9), spawn "bash -c \"if [ $(synclient -l | grep TouchpadOff | awk '{print $3}') == 1 ];  then synclient touchpadoff=0; else synclient touchpadoff=1; fi\"")
             , ((my_mod_mask, xK_slash), spawn "bash -c \"xdg-open ~/xmonad_cheatsheet.png & exit\"")
-            , ((my_mod_mask, xK_b), spawn "bash -c \"xdg-open ~/Xmbindings.png & exit \"")
+            , ((my_mod_mask .|. shiftMask, xK_b), spawn "bash -c \"xdg-open ~/Xmbindings.png & exit \"")
             , ((my_mod_mask .|. shiftMask, xK_f), sendMessage (Toggle "Full"))
             {- , ((my_mod_mask,                xK_m    ), viewEmptyWorkspace) -- Go to an empty workspace not much useful this key combo is used for focusing master window -}
             , ((my_mod_mask .|. shiftMask,  xK_m    ), tagToEmptyWorkspace) --send current window to an empty workspace
@@ -100,5 +100,6 @@ main = do
             , ((my_mod_mask, xK_d), spawn "ydb")
             , ((my_mod_mask .|. shiftMask, xK_d), spawn "dmenu_extended_run")
             , ((my_mod_mask, xK_o), spawn "bash -i -c \"hd_o\"") --open google_chrome with optirun
-            , ((my_mod_mask, xK_z), toggleWS)
+            , ((my_mod_mask, xK_z), toggleWS) --toggle between 2 workspaces
+            , ((my_mod_mask, xK_b), sendMessage ToggleStruts) --hides xmobar etc
         ]
