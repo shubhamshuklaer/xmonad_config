@@ -91,7 +91,7 @@ main = do
             , ((0, xK_Print), spawn "scrot -q 1 $(xdg-user-dir PICTURES)/screenshots/%Y-%m-%d-%H:%M:%S.png")
             , ((altMask, xK_Print), spawn "scrot -u -q 1 $(xdg-user-dir PICTURES)/screenshots/%Y-%m-%d-%H:%M:%S.png")
             , ((shiftMask, xK_Print), spawn "bash -i -c \"scrot -s -q 1 $(xdg-user-dir PICTURES)/screenshots/%Y-%m-%d-%H:%M:%S.png\"") -- not working
-            , ((my_mod_mask .|. shiftMask, xK_h), spawn "nautilus")
+            , ((my_mod_mask .|. shiftMask, xK_h), spawn "pcmanfm") --replaced nautilus as it was causing problem with search
             , ((my_mod_mask, xK_c), spawn "xclip -sel clip < ~/macros.cpp")
             , ((my_mod_mask, xK_i), spawn "bash -i -c gproxy") -- alias works only in interactive shell
             {- , ((my_mod_mask, xK_s), scratchpadSpawnActionTerminal "uxterm") -- gnome-terminal does not allow setting resource. -} --Not needed
