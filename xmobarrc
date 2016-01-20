@@ -8,16 +8,12 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
                     , Run Date "%a %b %_d %l:%M" "date" 10
-                    , Run BatteryP ["BAT0"] ["-t", "<acstatus>"
-                                    , "-L", "10", "-H", "80"
-                                    , "-l", "red", "-h", "green"
-                                    , "--", "-O", "Charging", "-o", "Battery: <left>%"
-                                    ] 10
                     , Run StdinReader
                     -- Run Com prog_name [cmd line arg list] output_var_name 10(i.e referesh interval)
                     , Run Com "bash" ["-i", "-c","amixer get Master | awk -F'[]%[]' '/%/ {if ($7 == \"off\") { print \"MM\" } else { print \"Vol: \"$2\"%\" }}' | head -n 1"] "vol" 10
+                    , Run Com "check_bat0_status.bash" [] "battery_stat" 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %vol% | %cpu% | %memory% | %swap% | Battery: %battery% | <fc=#ee9a00>%date%</fc>"
+       , template = "%StdinReader% }{ %vol% | %cpu% | %memory% | %swap% | Battery: %battery_stat% | <fc=#ee9a00>%date%</fc>"
        }
