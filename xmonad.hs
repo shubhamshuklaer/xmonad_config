@@ -26,7 +26,8 @@ import XMonad.Actions.CycleWS
 --mod1Mask line.
 my_mod_mask=mod4Mask
 altMask=mod1Mask
-my_terminal="gnome-terminal"
+{- my_terminal="gnome-terminal" -}
+my_terminal="xterm"
 
 myManageHook = composeAll [
     manageDocks
@@ -102,4 +103,5 @@ main = do
             , ((my_mod_mask, xK_o), spawn "bash -i -c \"hd_o\"") --open google_chrome with optirun
             , ((my_mod_mask, xK_z), toggleWS) --toggle between 2 workspaces
             , ((my_mod_mask, xK_b), sendMessage ToggleStruts) --hides xmobar etc
+            , ((my_mod_mask .|. shiftMask, xK_a), spawn my_terminal) --easier to press
         ]
