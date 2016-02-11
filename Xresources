@@ -40,3 +40,7 @@ xterm*ScrollBar: true
 
 ! stop output to terminal from jumping down to bottom of scroll again
 xterm*scrollTtyOutput: false
+
+! Use CLIPBOARD instead of PRIMARY
+! https://wiki.archlinux.org/index.php/Xterm#PRIMARY_or_CLIPBOARD
+xterm*selectToClipboard: true
