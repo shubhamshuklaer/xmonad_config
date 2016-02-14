@@ -1,5 +1,8 @@
 #!/bin/bash
-trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --height 17 --transparent true --tint 0x000000 &
+# trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --height 17 --transparent true --tint 0x000000 &
+# --SetPartialStrut false lets it float instead of pushing other windows down
+# Without trasnpartent true there is no color so we are using transparent with alpha 0
+trayer --edge top --align right --SetDockType true --SetPartialStrut false --expand true --width 5 --height 17 --transparent true --alpha 0 --tint 0x000000 &
 dropbox start &
 # nm-applet --sm-disable &
 # fluxgui &

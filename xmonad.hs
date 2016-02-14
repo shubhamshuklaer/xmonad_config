@@ -35,6 +35,9 @@ myManageHook = composeAll [
     , className =? "Vncviewer" --> doFloat
     , className =? "Yakuake" --> doFloat
     , className =? "Tilda" --> doFloat
+    -- http://iaindunning.com/blog/experiences-with-xmonad-and-ubuntu-12.html
+    , resource =? "trayer" --> doFloat
+    {- , resource =? "cairo-dock" --> doFloat -}
     , isFullscreen --> doFullFloat
     , manageHook defaultConfig
     ] <+> manageScratchPad

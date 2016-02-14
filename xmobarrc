@@ -1,7 +1,10 @@
-Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+Config {
+        -- font = "-*-Fixed-Bold-R-Normal-*-11-*-*-*-*-*-*-*"
+        -- https://wiki.archlinux.org/index.php/Xmobar
+        font = "xft:Bitstream Vera Sans Mono:size=7:antialias=true"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = TopW L 90
+       , position = TopW L 95
        , lowerOnStart = True
        , commands = [
                     Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
