@@ -35,8 +35,8 @@ xterm*color14: rgb:54/fc/fc
 xterm*color15: rgb:fc/fc/fc
 
 ! right hand side scrollbar...
-xterm*rightScrollBar: true
-xterm*ScrollBar: true
+xterm*rightScrollBar: false
+xterm*ScrollBar: false
 
 ! stop output to terminal from jumping down to bottom of scroll again
 xterm*scrollTtyOutput: false
