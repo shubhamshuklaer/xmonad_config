@@ -61,7 +61,8 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
 {- http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Layout-ToggleLayouts.html -}
 {- toggleLayouts will toggle between its two arguments witch can be 2 list of layouts -}
 {- layoutHook defaultConfig will get default for layoutHook -}
-my_layout_hook =  smartBorders  $ avoidStruts $ toggleLayouts Full $  layoutHook defaultConfig
+{- my_layout_hook =  smartBorders  $ avoidStruts $ toggleLayouts Full $  layoutHook defaultConfig -}
+my_layout_hook =  noBorders  $ avoidStruts $ toggleLayouts Full $  layoutHook defaultConfig
 main = do
     xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmobarrc"
     xmonad $ defaultConfig
