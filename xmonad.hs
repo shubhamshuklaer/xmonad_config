@@ -3,6 +3,7 @@ import Graphics.X11.ExtraTypes.XF86
 import System.IO
 import XMonad
 import XMonad.Hooks.DynamicLog
+import XMonad.Config.Desktop
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
@@ -62,7 +63,14 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
 {- toggleLayouts will toggle between its two arguments witch can be 2 list of layouts -}
 {- layoutHook defaultConfig will get default for layoutHook -}
 {- my_layout_hook =  smartBorders  $ avoidStruts $ toggleLayouts Full $  layoutHook defaultConfig -}
+{- my_layout_hook =  noBorders  $ avoidStruts $ toggleLayouts Full $  layoutHook defaultConfig -}
+
+{- When avoidStruts is there the windows avoid covering xmobar and trayer. When we -}
+{- remove it the windows will completly ignore it -}
 my_layout_hook =  noBorders  $ avoidStruts $ toggleLayouts Full $  layoutHook defaultConfig
+{- my_layout_hook =  noBorders $ toggleLayouts Full $  layoutHook defaultConfig -}
+
+
 main = do
     xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmobarrc"
     xmonad $ defaultConfig
@@ -74,6 +82,12 @@ main = do
                             {- , ppHidden = getWorkspaceNames -}
                             , ppTitle = xmobarColor "green" "" . shorten 50
                 }
+            {- http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Config-Desktop.html#g:5 -}
+            {- https://github.com/xmonad/xmonad/issues/18 -}
+            {- http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Hooks-ManageDocks.html -}
+            {- Solves the problem where avoidStruts was not working on first -}
+            {- workspce we need to press Mod+b twice to make it work -}
+            , handleEventHook = docksEventHook <+> handleEventHook desktopConfig
             , modMask = my_mod_mask     -- Rebind Mod to the Windows key
             , startupHook = setWMName "LG3D"
             , terminal = my_terminal
